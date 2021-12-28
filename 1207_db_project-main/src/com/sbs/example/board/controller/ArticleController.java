@@ -76,18 +76,51 @@ public class ArticleController extends Controller {
 		// 댓글 리스팅 (페이징 적용)
 
 		System.out.println("== 게시글 추천/비추천 ==");
-		System.out.println(">> [댓글쓰기] 1, [수정] 2, [삭제] 3, [페이징] 4, [나가기] 0 <<");
+		System.out.println(">> [댓글작성] 1, [수정] 2, [삭제] 3, [페이징] 4, [나가기] 0 <<");
 
 		int commentType;
 
 		while (true) {
 			try {
 				System.out.printf("[article comment] 명령어) ");
-				commentType = scanner.nextInt();
+				commentType = new Scanner(System.in).nextInt();
+
+				break;
 			} catch (InputMismatchException e) {
 				System.out.println("정상적인 숫자를 입력해주세요.");
 			}
 		}
+
+		if (commentType == 1) {
+			System.out.println("댓글 작성");
+			// 댓글 제목:
+			// 댓글 내용:
+			
+			// comment 테이블에 댓글 데이터를 삽입하시오.
+			// 결과: 0번 게시글에 0번 댓글이 생성되었습니다.
+			// 위와 같은 메시지를 출력해주세요.	
+			String title;
+			String body;
+			System.out.printf("댓글 제목: ");
+			title = scanner.nextLine();
+			System.out.printf("댓글 내용: ");
+			body = scanner.nextLine();
+			
+			int commentId = articleService.doComment(title, body,session.getLoginedMemberId(),id);
+			
+		} else if (commentType == 2) {
+			System.out.println("댓글 수정");
+		} else if (commentType == 3) {
+			System.out.println("댓글 삭제");
+		} else if (commentType == 4) {
+			System.out.println("페이징");
+		} else if (commentType == 0) {
+			System.out.println("댓글 종료");
+			return;
+		} else {
+			System.out.println("가이드에 표시된 숫자만 입력해주세요.");
+		}
+		
 	}
 
 	private void doLike() {

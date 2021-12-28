@@ -122,3 +122,25 @@ LIMIT 15, 5;
 SELECT COUNT(*)
 FROM article
 WHERE title LIKE '%d%';
+
+SELECT COUNT(*)
+FROM `like`
+WHERE articleId = 69 AND likeType = 2;
+
+SELECT *
+FROM `like`
+WHERE articleId = 6;
+
+## comment 테이블 생성
+CREATE TABLE `comment` (
+    id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY(id),
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    articleId INT(10) UNSIGNED NOT NULL,
+    memberId INT(10) UNSIGNED NOT NULL,
+    title CHAR(100) NOT NULL,
+    `body` CHAR(100) NOT NULL
+);
+
+DESC `comment`;
