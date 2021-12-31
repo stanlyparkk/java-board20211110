@@ -12,7 +12,7 @@ public class Comment {
 	private String title;
 	private String body;
 	private String extra_writer;
-	
+
 	public Comment(Map<String, Object> commentMap) {
 		this.id = (int) commentMap.get("id");
 		this.regDate = (LocalDateTime) commentMap.get("regDate");
@@ -87,5 +87,5 @@ public class Comment {
 	public void setExtra_writer(String extra_writer) {
 		this.extra_writer = extra_writer;
 	}
-	
+
 }

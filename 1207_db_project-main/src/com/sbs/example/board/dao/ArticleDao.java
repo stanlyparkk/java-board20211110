@@ -253,7 +253,7 @@ public class ArticleDao {
 		return DBUtil.selectRowIntValue(conn, sql);
 	}
 
-	public Comment getCommentCntById(int commentId) {
+	public Comment getCommentById(int commentId) {
 
 		SecSql sql = new SecSql();
 
@@ -266,11 +266,11 @@ public class ArticleDao {
 		return new Comment(commentMap);
 	}
 
-	public void modifyComment(String title, String body, int commentId) {
+	public void modifyComment(int commentId, String title, String body) {
 
 		SecSql sql = new SecSql();
 
-		sql.append("UPDATE comment");
+		sql.append("UPDATE `comment`");
 		sql.append("SET updateDate = NOW()");
 		sql.append(", title = ?", title);
 		sql.append(", body = ?", body);
@@ -284,16 +284,15 @@ public class ArticleDao {
 
 		SecSql sql = new SecSql();
 
-		sql.append("DELETE FROM comment");
+		sql.append("DELETE FROM `comment`");
 		sql.append("WHERE id = ?", commentId);
 
 		DBUtil.delete(conn, sql);
+
 	}
 
 	public List<Comment> getCommentsByPage(int id, int limitFrom, int limitTake) {
-		
-		// 조인
-		// LIMIT
+
 		SecSql sql = new SecSql();
 
 		sql.append("SELECT c.*, m.name AS extra_writer");
@@ -304,17 +303,47 @@ public class ArticleDao {
 		sql.append("LIMIT ?, ?", limitFrom, limitTake);
 
 		List<Map<String, Object>> commentListMap = DBUtil.selectRows(conn, sql);
-		
+
 		List<Comment> comments = new ArrayList<>();
-		
-		for(Map<String, Object> commetMap : commentListMap) {
-			comments.add(new Comment(commetMap));
+
+		for (Map<String, Object> commentMap : commentListMap) {
+			comments.add(new Comment(commentMap));
 		}
-		
+
 		return comments;
-		
-		
 	}
 
+	public int getCommentsCnt(int id) {
 
+		SecSql sql = new SecSql();
+
+		sql.append("SELECT COUNT(*)");
+		sql.append("FROM `comment`");
+		sql.append("WHERE articleId = ?", id);
+
+		return DBUtil.selectRowIntValue(conn, sql);
+
+	}
+
+	public List<Article> getArticles() {
+		
+		List<Article> articles = new ArrayList<>();
+
+		SecSql sql = new SecSql();
+
+		sql.append("SELECT a.*, m.name AS extra_writer");
+		sql.append("FROM article AS a");
+		sql.append("LEFT JOIN `member` AS m");
+		sql.append("ON a.memberId = m.id");
+		sql.append("ORDER BY a.id DESC");
+
+		List<Map<String, Object>> articleListMap = DBUtil.selectRows(conn, sql);
+
+		for (Map<String, Object> articleMap : articleListMap) {
+			articles.add(new Article(articleMap));
+		}
+
+		return articles;
+		
+	}
 }

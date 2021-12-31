@@ -105,14 +105,14 @@ public class ArticleService {
 	
 	}
 
-	public Comment getCommentCntById(int commentId) {
+	public Comment getCommentById(int commentId) {
 		
-		return articleDao.getCommentCntById(commentId);
+		return articleDao.getCommentById(commentId);
 	}
 
-	public void modifyComment(String title, String body, int commentId) {
+	public void modifyComment(int commentId, String title, String body) {
 		
-		articleDao.modifyComment(title, body, commentId);
+		articleDao.modifyComment(commentId, title, body);
 		
 	}
 
@@ -127,6 +127,14 @@ public class ArticleService {
 		int limitTake = itemsInAPage;
 		
 		return articleDao.getCommentsByPage(id, limitFrom, limitTake);
+	}
+
+	public int getCommentsCnt(int id) {
+		return articleDao.getCommentsCnt(id);
+	}
+
+	public List<Article> getArticles() {
+		return articleDao.getArticles();
 	}
 
 }
